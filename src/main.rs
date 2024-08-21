@@ -3,13 +3,11 @@ use std::time::SystemTime;
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
 use alloy_primitives::{Address, FixedBytes, B256, U256};
-use axum::http;
 use futures::{
     stream::{SplitSink, SplitStream},
     SinkExt, StreamExt,
 };
 use ssz::Decode;
-use ssz_derive::Decode;
 use tokio::{net::TcpStream, sync::Mutex};
 use tokio_tungstenite::{
     connect_async, tungstenite::protocol::Message, MaybeTlsStream, WebSocketStream,
@@ -24,7 +22,7 @@ const API_TOKEN: Option<&str> = None;
 
 type BlsPublicKey = FixedBytes<48>;
 
-#[derive(Debug, Clone, PartialEq, Decode)]
+#[derive(Debug, Clone, PartialEq, ssz_derive::Decode)]
 pub struct TopBidUpdate {
     pub timestamp: u64,
     pub slot: u64,

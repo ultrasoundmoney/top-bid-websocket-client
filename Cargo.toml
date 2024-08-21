@@ -1,0 +1,16 @@
+[package]
+name = "top-bid-websocket-client"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+alloy-primitives = { version = "0.8.0" }
+axum = { version = "0.7.5", features = ["ws", "macros"] }
+ethereum_ssz = "0.7.0"
+ethereum_ssz_derive = "0.7.0"
+futures = "0.3.30"
+reqwest = { version = "0.12.7", features = ["json"] }
+tokio = { version = "1.39.3", features = ["full"] }
+tokio-tungstenite = { version = "0.23.1", features = ["native-tls"] }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["fmt", "std"] }

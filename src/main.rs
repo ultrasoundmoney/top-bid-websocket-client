@@ -13,7 +13,7 @@ use tokio_tungstenite::{
     connect_async, tungstenite::protocol::Message, MaybeTlsStream, WebSocketStream,
 };
 
-const WS_URL: &str = "ws://relay-builders-eu.ultrasound.money/ws/v1/top_bid";
+const HOST: &str = "relay-builders-us.ultrasound.money";
 
 // The public connection is fast, if you want an even faster connection you'll need a token.
 // See: https://github.com/ultrasoundmoney/docs/blob/main/direct-auction-connections.md
@@ -38,15 +38,18 @@ pub struct TopBidUpdate {
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     tracing_subscriber::fmt::init();
 
+    let uri = format!("ws://{}/ws/v1/top_bid", HOST);
+    tracing::info!("connecting to {}", uri);
+
     let connection = match (BUILDER_ID, API_TOKEN) {
         (Some(builder_id), Some(api_token)) => {
             let req = http::Request::builder()
-                .uri(WS_URL)
+                .uri(uri)
                 .header("x-builder-id", builder_id)
                 .header("x-api-token", api_token)
                 .header("sec-websocket-key", "foo")
                 .header("sec-websocket-version", 13)
-                .header("host", "relay-builders-eu.ultrasound.money")
+                .header("host", HOST)
                 .header("upgrade", "websocket")
                 .header("connection", "upgrade")
                 .body(())
@@ -54,7 +57,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             connect_async(req).await
         }
-        _ => connect_async(WS_URL).await,
+        _ => connect_async(uri).await,
     };
 
     match connection {

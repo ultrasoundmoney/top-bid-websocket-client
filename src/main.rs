@@ -78,7 +78,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                     let stats = stats.lock().await;
                     let slot_count = stats.len();
                     let update_count: u64 = stats.values().sum();
-                    let updates_per_slot = update_count / slot_count as u64;
+                    let updates_per_slot = update_count.checked_div(slot_count as u64).unwrap_or_default();
 
                     tracing::info!(%slot_count,  %updates_per_slot, "top bid update stats");
 

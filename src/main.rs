@@ -1,4 +1,4 @@
-//! A simple websocket client that connects to the auction feed and logs the top bid updates
+//! A simple websocket client that connects to the auction feed and logs the top bid updates.
 use std::time::SystemTime;
 use std::{collections::HashMap, sync::Arc, time::Duration};
 
@@ -13,7 +13,9 @@ use tokio_tungstenite::{
     connect_async, tungstenite::protocol::Message, MaybeTlsStream, WebSocketStream,
 };
 
-const HOST: &str = "relay-builders-us.ultrasound.money";
+// Using relay-builders-us.ultrasound.money would work too.
+// If you're set up with a direct connection, see comment below, that host is slightly faster and works too.
+const HOST: &str = "relay-builders-eu.ultrasound.money";
 
 // The public connection is fast, if you want an even faster connection you'll need a token.
 // See: https://github.com/ultrasoundmoney/docs/blob/main/direct-auction-connections.md
